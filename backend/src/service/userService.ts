@@ -42,7 +42,7 @@ class UserService {
     lastName: string;
     username: string;
   }) {
-    const existingUserName = await this.repoLayer.findUserByUserName(username);
+    const existingUserName = await UserRepo.findUserByUserName(username);
     if (existingUserName) throw new Error("Username already present!!");
     const user = await this.repoLayer.findUserByEmail(email);
     if (user) throw new Error("Email already present!!");

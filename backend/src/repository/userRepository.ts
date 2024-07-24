@@ -7,7 +7,7 @@ class UserRepo {
     return await userModel.findOne({ email: email });
   }
  
- async findUserByUserName(username : string) {
+ static async findUserByUserName(username : string) {
     return await userModel.findOne({username})
  }
 

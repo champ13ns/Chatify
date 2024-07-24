@@ -4,19 +4,34 @@ import { FriendContext } from './Home'
 
 const Chats = () => {
   const { friendList } = useContext(FriendContext)
-  {
-    friendList.length > 0 ? (
+    return friendList.length > 0 ? (
       <VStack >
+      <p>No friends yet</p>
         <TabPanels>
           <TabPanel>
             One
           </TabPanel>
+          <TabPanel>
+            Two
+          </TabPanel><TabPanel>
+            Three
+          </TabPanel><TabPanel>
+            Four
+          </TabPanel>
         </TabPanels>
       </VStack>
     ) : (
-      <Heading textAlign='center'>Add Friends to start chatting!</Heading>
+      <div>
+      <TabPanels>
+        <TabPanel>
+          <Heading  textAlign='center'>No Friends Yet :( Add Friends to start chatting!</Heading>
+        </TabPanel>
+      </TabPanels>
+      </div>
     )
   }
-}
+
 
 export default Chats
+
+

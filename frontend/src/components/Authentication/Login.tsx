@@ -1,24 +1,25 @@
 import { VStack, Heading, ButtonGroup, Button } from '@chakra-ui/react';
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import CustomForm from '../../CustomForm';
+import CustomForm from '../../CustomForm'; ``
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
 
-const LoginForm = () => {
+const Login = () => {
     const navigate = useNavigate();
     return (
         <Formik
-            initialValues={{ username: "", password: "" }}
+            initialValues={{ password: "", email: "" }}
             validationSchema={Yup.object({
-                username: Yup.string()
+                email: Yup.string()
                     .required("Username required!")
                     .min(6, "Username too short!")
                     .max(28, "Username too long!"),
                 password: Yup.string()
                     .required("Password required!")
                     .min(6, "Password too short!")
-                    .max(28, "Password too long!"),
+                    .max(28, "Password too long!")
+
             })}
             onSubmit={(values, actions) => {
                 console.log("values are ,", values)
@@ -27,19 +28,17 @@ const LoginForm = () => {
                     method: "POST",
                     body: JSON.stringify(values),
                     headers: {
-                        'Content-type': 'application/json'
+                        "Content-type": "application/json"
                     }
                 }).then((res) => {
-                    if (res.status !== 200) {
-                        alert("Wrong EmailID/ password")
-                        return;
-                    } else if(res.status === 200) {
-                        res.json().then((token) => {
-                            localStorage.setItem('token', `Bearer ${token}`)
-                            navigate('/home')
-                        })
-                    }
-                })
+                   if(res.status === 200) {
+                      res.json().then((token) => {
+                        localStorage.removeItem('token')
+                        localStorage.setItem('token',`Bearer ${token}`)
+                        navigate('/home')
+                     })
+                   }
+                }).catch(err => console.log("err is ", err))
             }}
         >
             <VStack
@@ -48,25 +47,29 @@ const LoginForm = () => {
             >
                 <Heading>Log In</Heading>
 
-                <CustomForm name="Username"
-                    placeholder="Enter username"
-                    label="username"
-                    type="name"
+                <CustomForm name="email"
+                    placeholder="Enter email"
+                    label="Email"
+                    type="email"
                 />
-                <CustomForm name="Password"
+                <CustomForm name="password"
                     placeholder="Enter Password"
                     label="Password"
                     type="password"
                 />
-                <ButtonGroup className="mr-2">
-                    <Button type='submit' colorScheme="teal">Login</Button>
-                    <Button onClick={() => navigate('/register')} colorScheme="green">
-                        <ArrowBackIcon className='mr-1' />
-                        Create Account</Button>
+               
+                <ButtonGroup className="mt-2">
+                    <Button type='submit'
+                        colorScheme="teal">Login</Button>
+                    <Button leftIcon={<ArrowBackIcon />} onClick={() => navigate('/login')} colorScheme="green" className='flex items-start space-x-8 '>
+                        Register
+                    </Button>
                 </ButtonGroup>
             </VStack>
         </Formik >
     )
 };
 
-export default LoginForm;
+export default Login;
+
+

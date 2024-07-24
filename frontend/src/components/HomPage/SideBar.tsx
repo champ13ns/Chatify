@@ -8,7 +8,9 @@ import AddFriendModal from './AddFriendModal'
 export const SideBar = () => {
 
     const { isOpen, onOpen,onClose } = useDisclosure();
-    const { friendList, setFriendList } = useContext(FriendContext)
+
+    const val = useContext(FriendContext)
+    const {friendList, setFriendList} = val;
     return (
         <>
         <VStack mt={"1rem"}  >
@@ -23,10 +25,13 @@ export const SideBar = () => {
             <Divider />
             <VStack as={TabList} >
                 {
-                    friendList.map(friend  => (
-                        <HStack as={Tab}  >
-                            <Circle bg={friend?.connected ? "green.700" : "red.600"} w="20px" h="20px" />
-                            <Text>{friend?.username}</Text>
+                    friendList.map((friend)   => (
+                        <HStack key={friend.username} as={Tab}  > 
+                            <Circle bg={friend?.connected === true ? "green.700" : "red.600"} w="20px" h="20px" />
+                            <HStack display='block' >
+                            <Text size='xl' >{friend?.name}</Text>
+                            <Text size='lg' textColor="lightgray" >@{friend?.username}</Text>
+                            </HStack>
                         </HStack>
                     ))
                 }
